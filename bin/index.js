@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 const { spawn } = require("child_process");
+const React = require("react");
+const ReactDOMServer = require("react-dom/server");
 
 // Simple util for calling a child process
 function cmd(string, onProgress) {
@@ -26,6 +28,13 @@ async function generateChangelogJSON() {
   return JSON.parse(jsonStr);
 }
 
+function Changelog(props) {
+  return React.createElement("div", {}, "hello world");
+}
+
 generateChangelogJSON().then(json => {
   console.log(json);
+  console.log(
+    ReactDOMServer.renderToStaticMarkup(React.createElement(Changelog))
+  );
 });
