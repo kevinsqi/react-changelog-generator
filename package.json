@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kevinsqi/react-changelog-generator/issues"
   },
-  "homepage": "https://github.com/kevinsqi/react-changelog-generator"
+  "homepage": "https://github.com/kevinsqi/react-changelog-generator",
+  "dependencies": {
+    "auto-changelog": "^1.14.1"
+  }
 }
