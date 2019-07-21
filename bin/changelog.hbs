@@ -1,0 +1,7 @@
+{{#with releases.[0]}}
+  ## {{title}} ({{isoDate}})
+
+  {{#each merges}}
+    - {{{message}}}{{#if href}} [`#{{ id }}`]({{href}}){{/if}}
+  {{/each}}
+{{/with}}

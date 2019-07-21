@@ -1,11 +1,7 @@
 #!/usr/bin/env node
 const { spawn } = require("child_process");
 const program = require("commander");
-const TurndownService = require("turndown");
-const React = require("react");
-const ReactDOMServer = require("react-dom/server");
-
-const turndownService = new TurndownService();
+const path = require("path");
 
 // Simple util for calling a child process
 function cmd(string, onProgress) {
@@ -25,31 +21,8 @@ function cmd(string, onProgress) {
   });
 }
 
-async function generateChangelogJSON() {
-  const jsonStr = await cmd(
-    `auto-changelog --template json --stdout --commit-limit false`
-  );
-  return JSON.parse(jsonStr);
-}
+const templatePath = path.join(__dirname, "changelog.hbs");
 
-function getOptions(argv) {
-  return program
-    .option("-f, --file <file>", "React component file")
-    .parse(argv);
-}
-
-generateChangelogJSON()
-  .then(json => {
-    const options = getOptions(process.argv);
-    const ChangelogComponent = require(options.file);
-    console.log(
-      turndownService.turndown(
-        ReactDOMServer.renderToStaticMarkup(
-          React.createElement(ChangelogComponent, { changelog: json })
-        )
-      )
-    );
-  })
-  .catch(error => {
-    console.error(error);
-  });
+cmd(
+  `auto-changelog --template ${templatePath} --stdout --commit-limit false`
+).then(output => console.log(output));
