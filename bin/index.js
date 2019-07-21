@@ -30,20 +30,20 @@ async function generateChangelogJSON() {
   return JSON.parse(jsonStr);
 }
 
-function Changelog(props) {
-  return React.createElement("div", {}, "hello world");
-}
-
 function getOptions(argv) {
-  return program.option("-c, --component", "React component file").parse();
+  return program
+    .option("-f, --file <file>", "React component file")
+    .parse(argv);
 }
 
 generateChangelogJSON()
   .then(json => {
-    console.log(json);
-    console.log(getOptions(process.argv));
+    const options = getOptions(process.argv);
+    const ChangelogComponent = require(options.file);
     console.log(
-      ReactDOMServer.renderToStaticMarkup(React.createElement(Changelog))
+      ReactDOMServer.renderToStaticMarkup(
+        React.createElement(ChangelogComponent, { changelog: json })
+      )
     );
   })
   .catch(error => {
