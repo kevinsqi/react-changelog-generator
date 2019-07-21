@@ -21,6 +21,7 @@
   "homepage": "https://github.com/kevinsqi/react-changelog-generator",
   "dependencies": {
     "auto-changelog": "^1.14.1",
+    "commander": "^2.20.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   }

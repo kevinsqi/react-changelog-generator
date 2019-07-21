@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 const { spawn } = require("child_process");
+const program = require("commander");
+
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
 
@@ -32,9 +34,18 @@ function Changelog(props) {
   return React.createElement("div", {}, "hello world");
 }
 
-generateChangelogJSON().then(json => {
-  console.log(json);
-  console.log(
-    ReactDOMServer.renderToStaticMarkup(React.createElement(Changelog))
-  );
-});
+function getOptions(argv) {
+  return program.option("-c, --component", "React component file").parse();
+}
+
+generateChangelogJSON()
+  .then(json => {
+    console.log(json);
+    console.log(getOptions(process.argv));
+    console.log(
+      ReactDOMServer.renderToStaticMarkup(React.createElement(Changelog))
+    );
+  })
+  .catch(error => {
+    console.error(error);
+  });
