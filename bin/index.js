@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 const { spawn } = require("child_process");
 const program = require("commander");
-
+const TurndownService = require("turndown");
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
+
+const turndownService = new TurndownService();
 
 // Simple util for calling a child process
 function cmd(string, onProgress) {
@@ -41,8 +43,10 @@ generateChangelogJSON()
     const options = getOptions(process.argv);
     const ChangelogComponent = require(options.file);
     console.log(
-      ReactDOMServer.renderToStaticMarkup(
-        React.createElement(ChangelogComponent, { changelog: json })
+      turndownService.turndown(
+        ReactDOMServer.renderToStaticMarkup(
+          React.createElement(ChangelogComponent, { changelog: json })
+        )
       )
     );
   })
